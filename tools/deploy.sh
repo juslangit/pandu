@@ -25,7 +25,7 @@ rsync -a --exclude '.DS_Store' --exclude '.playwright-cli' --exclude '.taste-ski
 
 cd "$STAGE"
 if ! npx --yes wrangler@latest pages project list 2>/dev/null | grep -qw "$PROJECT"; then
-  npx --yes wrangler@latest pages project create "$PROJECT" --production-branch main
+  npx --yes wrangler@latest pages project create "$PROJECT" --production-branch main --force
 fi
 echo "Uploading $(du -sh "$STAGE" | cut -f1) to $PROJECT ($BRANCH)…"
 npx --yes wrangler@latest pages deploy "$STAGE" --project-name "$PROJECT" --branch "$BRANCH" \
