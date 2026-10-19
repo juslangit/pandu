@@ -4,7 +4,7 @@ Accessible, framework-free site navigation. Pandu (Malay for *guide*) turns the 
 
 - **Live demo:** https://pandu-nav.pages.dev (setup notes at [/pandu/](https://pandu-nav.pages.dev/pandu/), [before and after](https://pandu-nav.pages.dev/pandu/before-after/))
 - **Staging:** https://staging.pandu-nav.pages.dev
-- **Size:** `pandu.min.css` 2.4 KB + `pandu.min.js` 4.6 KB, gzipped. No dependencies.
+- **Size:** `pandu.min.css` 2.5 KB + `pandu.min.js` 4.6 KB, gzipped. No dependencies.
 
 ![Pandu demo: keyboard on desktop, then the drawer on a phone](site/static/media/pandu-demo.gif)
 
