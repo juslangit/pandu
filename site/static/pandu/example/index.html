@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pandu · minimal example</title>
+  <meta name="description" content="The smallest complete Pandu setup: default theme, one dropdown, one mega-menu, a mobile drawer.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <!-- 1. Pandu's two files -->
+  <link rel="stylesheet" href="/dist/pandu.min.css">
+  <script src="/dist/pandu.min.js" defer></script>
+  <style>
+    body { margin: 0; font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #1c1b1a; background: #f4f4f2; }
+    main { max-width: 44rem; margin: 0 auto; padding: 3rem 1.25rem 6rem; }
+    h1 { font-size: 2rem; line-height: 1.15; margin: 0 0 1rem; }
+    code { font: 0.9em ui-monospace, Menlo, Consolas, monospace; background: #e6e6e2; padding: 0.1em 0.3em; border-radius: 4px; }
+    a { color: #1f5cbb; }
+    /* 2. Optional theme: any --pandu-* property */
+    .pandu { --pandu-bg: #ffffff; --pandu-accent: #1f5cbb; }
+  </style>
+</head>
+<body>
+  <!-- 3. The markup. Every item is a real link, so this works with JavaScript off. -->
+  <header class="pandu pandu--sticky" data-pandu>
+    <div class="pandu__bar">
+      <a class="pandu__brand" href="/pandu/example/">Acme</a>
+      <a class="pandu__toggle" href="#example-menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <span>Menu</span>
+      </a>
+      <nav class="pandu__menu" id="example-menu" aria-label="Main">
+        <div class="pandu__drawer-head">
+          <a class="pandu__close" href="#" aria-label="Close menu"><span aria-hidden="true">Close</span></a>
+        </div>
+        <ul class="pandu__list">
+          <li class="pandu__item">
+            <a class="pandu__trigger" href="/trips/">Products</a>
+            <div class="pandu__panel pandu__panel--mega" id="example-products">
+              <div class="pandu__col">
+                <p class="pandu__heading" id="ex-h1">Build</p>
+                <ul aria-labelledby="ex-h1">
+                  <li><a href="/trips/gua-tempurung/">Editor<span class="pandu__desc">Write and preview</span></a></li>
+                  <li><a href="/trips/kinta-valley/">Components<span class="pandu__desc">Reusable parts</span></a></li>
+                </ul>
+              </div>
+              <div class="pandu__col">
+                <p class="pandu__heading" id="ex-h2">Ship</p>
+                <ul aria-labelledby="ex-h2">
+                  <li><a href="/trips/gunung-korbu/">Hosting<span class="pandu__desc">Global edge</span></a></li>
+                  <li><a href="/trips/royal-belum/">Analytics<span class="pandu__desc">Privacy first</span></a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="pandu__item">
+            <a class="pandu__trigger" href="/about/">Company</a>
+            <div class="pandu__panel" id="example-company">
+              <ul>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/about/guides/">Team</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="pandu__item"><a class="pandu__link" href="/pandu/example/" aria-current="page">Example</a></li>
+          <li class="pandu__item"><a class="pandu__link" href="/pandu/">Docs</a></li>
+        </ul>
+        <div class="pandu__actions"><a class="pandu__cta" href="/pandu/#install">Read the install notes</a></div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <h1>Minimal Pandu example</h1>
+    <p>This page uses Pandu's default theme with two overridden colours and nothing else. View the source: it is the complete setup. The "Products" panel is a mega-menu, "Company" is a dropdown, and below 960 px the links move into a drawer.</p>
+    <p>Note that "Products" and "Company" link to their section pages when JavaScript is off; with it on, the script adds an overview link at the top of "Products" because the panel did not include one.</p>
+    <p><a href="/pandu/">Back to the Pandu docs</a></p>
+  </main>
+</body>
+</html>

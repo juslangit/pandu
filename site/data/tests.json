@@ -1,0 +1,10 @@
+{
+  "summary": "Run on 2026-10-19 with <code>tools/check.mjs</code> (Playwright) against this site: every page at 1440 and 320 px, a full keyboard walkthrough, hover intent, the drawer at 390 and 320 px (focus in, Tab wrap, Esc, Close, scrim, inert, scroll lock), JavaScript switched off, and axe-core (WCAG 2.2 AA plus best practice) on every page at desktop and phone width with a menu open. 213 of 213 checks passed, with no console errors or warnings and no horizontal scroll at 320 px. Edge was not installed on the test machine; it runs the same Chromium engine as Chrome.",
+  "rows": [
+    ["Google Chrome (installed)", "Chromium 154", "1440, 390, 320 px", "53 / 53 passed"],
+    ["Chromium (Playwright build)", "Chromium 155", "1440, 390, 320 px", "54 / 54 passed, axe-core: 0 violations"],
+    ["Firefox", "Gecko 156", "1440, 390, 320 px", "53 / 53 passed"],
+    ["Safari engine", "WebKit 26.6", "1440, 390, 320 px (touch, mobile)", "53 / 53 passed, Option+Tab supported"],
+    ["Microsoft Edge", "Chromium", "n/a", "Not run separately: same engine as Chrome above"]
+  ]
+}

@@ -1,0 +1,12 @@
+.env
+.env.*
+.DS_Store
+node_modules/
+.playwright-cli/
+.taste-skill/
+.impeccable/
+public/
+docs/index.html
+test-results/
+assets/*.jpg
+/img/

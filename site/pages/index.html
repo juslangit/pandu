@@ -1,0 +1,103 @@
+<!--meta {"title": "Home", "description": "Lereng runs small guided treks and cave trips from Ipoh, Perak. A demo site for Pandu, an accessible navigation component.", "bodyClass": "home"} -->
+<section class="hero" aria-labelledby="hero-title">
+  <h1 id="hero-title" class="hero__title">Into the limestone hills</h1>
+  <figure class="print print--tall shutter">
+    {{IMG limestone "A limestone hill with sheer white cliffs and jungle on top, near Ipoh" sizes="(min-width: 60em) 60vw, 110vw" eager}}
+    <figcaption>A limestone hill on the edge of Ipoh</figcaption>
+  </figure>
+  <figure class="print print--wide">
+    <div class="print__crop">{{IMG mirror-lake "Limestone hills reflected in the still green water of Tasik Cermin" sizes="(min-width: 60em) 36vw, 100vw" eager}}</div>
+    <figcaption>Tasik Cermin at seven in the morning</figcaption>
+  </figure>
+  <div class="hero__side">
+    <figure class="print print--sq">
+      {{IMG cave "Lamps lighting stalactites inside Gua Tempurung" sizes="(min-width: 60em) 22vw, 38vw" eager}}
+    </figure>
+    <div class="hero__text">
+      <p class="hero__lead">Small guided treks and cave trips from Ipoh, Perak. 8 people at most, back before the afternoon rain.</p>
+      <a class="btn" href="/trips/">See this season's trips</a>
+    </div>
+  </div>
+</section>
+
+<section class="trips" aria-labelledby="trips-title">
+  <h2 id="trips-title" class="statement">Seven trips, each one led on foot</h2>
+  <div class="trips__grid">
+    <figure class="trips__photo reveal">
+      {{IMG mossy-tree "A huge moss-covered tree beside wooden steps in the Mossy Forest" sizes="(min-width: 60em) 24vw, 60vw"}}
+      <figcaption>Mossy Forest, Cameron Highlands</figcaption>
+    </figure>
+    <div class="trips__table">
+      <div class="filter" role="group" aria-label="Filter trips by length" hidden>
+        <button type="button" class="filter__btn" aria-pressed="true" data-filter="all">All trips</button>
+        <button type="button" class="filter__btn" aria-pressed="false" data-filter="day">Half day and day</button>
+        <button type="button" class="filter__btn" aria-pressed="false" data-filter="overnight">Two nights or more</button>
+      </div>
+      <p class="filter__status" role="status" aria-live="polite"></p>
+      <ul class="rows">
+        <li class="row" data-kind="day"><a href="/trips/gua-tempurung/"><span class="row__kind">Half day</span><span class="row__name">Gua Tempurung cave run</span><span class="row__price">RM 95</span></a></li>
+        <li class="row" data-kind="day"><a href="/trips/kinta-valley/"><span class="row__kind">Day trip</span><span class="row__name">Kinta Valley limestone loop</span><span class="row__price">RM 180</span></a></li>
+        <li class="row" data-kind="day"><a href="/trips/mossy-forest/"><span class="row__kind">Day trip</span><span class="row__name">Mossy Forest, Cameron Highlands</span><span class="row__price">RM 210</span></a></li>
+        <li class="row row--group" data-kind="overnight"><a href="/trips/royal-belum/"><span class="row__kind">2 days</span><span class="row__name">Royal Belum by boat</span><span class="row__price">RM 690</span></a></li>
+        <li class="row" data-kind="overnight"><a href="/trips/gunung-korbu/"><span class="row__kind">3 days</span><span class="row__name">Gunung Korbu summit</span><span class="row__price">RM 850</span></a></li>
+        <li class="row" data-kind="overnight"><a href="/trips/taman-negara/"><span class="row__kind">3 days</span><span class="row__name">Taman Negara canopy</span><span class="row__price">RM 980</span></a></li>
+        <li class="row" data-kind="overnight"><a href="/trips/kinabalu/"><span class="row__kind">3 days</span><span class="row__name">Mount Kinabalu</span><span class="row__price">RM 2,450</span></a></li>
+      </ul>
+      <p class="trips__note">Prices are per person and include permits. <a href="/trips/calendar/">See the dates</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="band-title">
+  <h2 id="band-title" class="band__title">Where the days go</h2>
+  <div class="band__strip">
+    <a class="band__panel band__panel--lead" href="/trips/taman-negara/">
+      {{IMG canopy "A rope canopy walkway between tall trees in Taman Negara" sizes="(min-width: 60em) 60vw, 80vw"}}
+      <span class="band__label band__label--lead">High walkways, old forest</span>
+    </a>
+    <a class="band__panel" href="/trips/gua-tempurung/">
+      {{IMG cave "Inside Gua Tempurung" sizes="(min-width: 60em) 60vw, 80vw"}}
+      <span class="band__label">Gua Tempurung</span>
+    </a>
+    <a class="band__panel" href="/trips/kinabalu/">
+      {{IMG kinabalu "Mount Kinabalu above green foothills" sizes="(min-width: 60em) 60vw, 80vw"}}
+      <span class="band__label">Kinabalu</span>
+    </a>
+    <a class="band__panel" href="/trips/mossy-forest/">
+      {{IMG misty-forest "Cloud drifting through thin trees in the Mossy Forest" sizes="(min-width: 60em) 60vw, 80vw"}}
+      <span class="band__label">Mossy Forest</span>
+    </a>
+  </div>
+  <p class="band__caption">Canopy walkway, Taman Negara · Gua Tempurung, Gopeng · Kinabalu from Kundasang · Mossy Forest, Cameron Highlands</p>
+</section>
+
+<section class="about" aria-labelledby="about-title">
+  <h2 id="about-title" class="about__title">Small groups, early starts</h2>
+  <p class="about__lead">Lereng is Malay for slope. We are a two-guide outfit in Ipoh, we cap every group at eight, and we set off at half past six so the walking is done before the storms roll in.</p>
+  <div class="about__tiles">
+    <figure class="about__photo reveal">
+      {{IMG belum "Morning mist lifting off the rainforest above Temenggor Lake in Royal Belum" sizes="(min-width: 60em) 62vw, 100vw"}}
+      <p class="about__note">Every trip carries a satellite messenger, a full first-aid kit and a written turnaround time. If the weather turns, so do we.</p>
+    </figure>
+    <div class="about__side reveal">
+      <div class="about__tile" aria-hidden="true">
+        <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMax meet">
+          <path d="M0 180 V150 L22 150 C30 150 30 96 44 92 C58 88 56 140 70 142 L84 142 C92 142 92 60 110 54 C128 48 126 132 140 136 L156 138 C164 138 166 104 178 100 C192 96 190 146 204 146 L214 146 C222 146 224 40 244 34 C262 30 262 140 276 144 L300 146 V180 Z" fill="currentColor"/>
+          <circle cx="160" cy="120" r="7" class="dot"/>
+        </svg>
+        <p class="about__tile-label">Ipoh, under the hills</p>
+      </div>
+      <dl class="about__facts">
+        <div><dt>Base</dt><dd>Ipoh, Perak</dd></div>
+        <div><dt>Group</dt><dd>8 at most</dd></div>
+        <div><dt>We leave at</dt><dd>6:30 am</dd></div>
+        <div><dt>Guides</dt><dd>2 on every trip</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="cta" aria-labelledby="cta-text">
+  <h2 id="cta-text" class="cta__text">Tell us your dates and how many of you are coming, and we will plan the day around the weather.</h2>
+  <p class="cta__actions"><a class="btn" href="/book/">Book a trip</a> <a class="text-link" href="/contact/">Ask a question first</a></p>
+</section>

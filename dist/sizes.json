@@ -1,0 +1,18 @@
+{
+  "pandu.css": {
+    "raw": 13308,
+    "gzip": 3445
+  },
+  "pandu.js": {
+    "raw": 21874,
+    "gzip": 6495
+  },
+  "pandu.min.css": {
+    "raw": 9727,
+    "gzip": 2589
+  },
+  "pandu.min.js": {
+    "raw": 14013,
+    "gzip": 4730
+  }
+}

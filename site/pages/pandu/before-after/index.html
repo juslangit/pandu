@@ -1,0 +1,66 @@
+<!--meta {"title": "Before and after", "description": "A typical dated site menu next to Pandu: keyboard access, mobile, screen readers and weight compared.", "bodyClass": "docs-page"} -->
+<section class="page-head page-head--plain">
+  <div class="page-head__text">
+    <h1 class="page-head__title">Before and after</h1>
+    <p class="page-head__lead">Below is the kind of menu Pandu replaces, built the way many sites still ship it: hover-only dropdowns, tiny text, no phone layout. Try it with the Tab key, then try the menu at the top of this page.</p>
+  </div>
+</section>
+
+<section class="page-body">
+  <h2 class="section-title">Before: the old menu</h2>
+  <p class="ba-hint">Live, not a picture. Point at Trips to see its dropdown, then press Tab: focus skips every link inside it.</p>
+  <div class="old-frame" data-ui>
+    <div class="old-site">
+      <div class="old-logo">LERENG OUTFITTERS</div>
+      <div class="old-menu" id="old-menu">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li class="old-has"><span>Trips &#9660;</span>
+            <ul>
+              <li><a href="/trips/gua-tempurung/">Gua Tempurung</a></li>
+              <li><a href="/trips/kinta-valley/">Kinta Valley</a></li>
+              <li><a href="/trips/gunung-korbu/">Gunung Korbu</a></li>
+              <li><a href="/trips/royal-belum/">Royal Belum</a></li>
+              <li><a href="/trips/mossy-forest/">Mossy Forest</a></li>
+              <li><a href="/trips/taman-negara/">Taman Negara</a></li>
+              <li><a href="/trips/kinabalu/">Kinabalu</a></li>
+            </ul>
+          </li>
+          <li class="old-has"><span>Rent Gear &#9660;</span>
+            <ul>
+              <li><a href="/rent/shelter/">Tents</a></li>
+              <li><a href="/rent/packs/">Packs</a></li>
+              <li><a href="/rent/rain-and-cold/">Rain Gear</a></li>
+            </ul>
+          </li>
+          <li><a href="/about/">About Us</a></li>
+          <li><a href="/journal/">Journal</a></li>
+          <li><a href="/contact/">Contact Us</a></li>
+          <li><a href="/book/">BOOK NOW!!</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title ba-after">After: Pandu</h2>
+  <p class="ba-hint">It is the menu at the top of this page. Press Tab from the address bar, or <a href="#main" id="ba-jump">jump back up</a> and open Trips with Enter.</p>
+
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Old menu compared with Pandu">
+  <table class="table compare table--stack">
+    <thead><tr><th scope="col">Check</th><th scope="col">Old menu</th><th scope="col">Pandu</th></tr></thead>
+    <tbody>
+      <tr><td>Reach every link with the keyboard</td><td>No: dropdown links are only shown on mouse hover</td><td>Yes, in reading order, plus arrow-key shortcuts</td></tr>
+      <tr><td>Screen reader knows a section opens</td><td>No: the label is a plain span</td><td>Yes: a button with <code>aria-expanded</code> and <code>aria-controls</code></td></tr>
+      <tr><td>Says which page you are on</td><td>No</td><td>Yes: <code>aria-current="page"</code> and an underline</td></tr>
+      <tr><td>Works on a 320 px phone</td><td>No: the bar scrolls sideways</td><td>Yes: Menu button and a drawer with accordions</td></tr>
+      <tr><td>Touch on a tablet</td><td>Hover menus need a second tap or never open</td><td>Tap opens; hover is only used with a real mouse</td></tr>
+      <tr><td>Text size and targets</td><td>11 px text, 22 px tall targets</td><td>15 px text, 44 px targets</td></tr>
+      <tr><td>Works with JavaScript off</td><td>Yes, but only by mouse</td><td>Yes: links, hover and focus panels, and a :target drawer</td></tr>
+      <tr><td>Reduced motion, high contrast</td><td>Not considered</td><td>Both handled</td></tr>
+      <tr><td>Adding a link</td><td>Edit HTML in every page and the hover CSS</td><td>Add one <code>&lt;li&gt;</code> in your nav template</td></tr>
+      <tr><td>Weight</td><td>About 1 KB</td><td>{{SIZE_TOTAL}} gzipped</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">The old menu is a reconstruction for comparison, not anyone's real site.</p>
+</section>

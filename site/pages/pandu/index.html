@@ -1,0 +1,303 @@
+<!--meta {"title": "Pandu docs", "description": "Setup notes for Pandu: a framework-free, keyboard-accessible navigation bar with dropdowns, a mega-menu and a mobile drawer.", "bodyClass": "docs-page"} -->
+<section class="docs-hero">
+  <div class="docs-hero__text">
+    <h1 class="docs-hero__title">A menu for every visitor</h1>
+    <p class="docs-hero__lead">Pandu (Malay for guide) turns the plain list of links your server already renders into dropdowns, a mega-menu and a mobile drawer. One CSS file, one JavaScript file, {{SIZE_TOTAL}} gzipped, no framework, and every route keeps working as a normal link.</p>
+    <p class="docs-hero__actions"><a class="btn" href="#install">Install it</a> <a class="text-link" href="https://github.com/juslangit/pandu">Source on GitHub</a> <a class="text-link" href="/pandu/before-after/">Before and after</a></p>
+  </div>
+  <figure class="docs-hero__demo" id="demo">
+    <video class="demo-video" src="/media/pandu-demo.mp4" poster="/media/pandu-demo-poster.webp" width="1280" height="800" autoplay muted loop playsinline controls preload="metadata" aria-label="Screen recording: the Trips mega-menu opened with the keyboard, arrow keys moving between items, Escape closing it, then the mobile drawer at phone width"></video>
+    <figcaption>Recorded on this site with Playwright: keyboard on desktop, then the drawer at 390 px. <a href="/media/pandu-demo.gif">Open the GIF</a> · <a href="/media/pandu-demo.mp4">MP4</a></figcaption>
+  </figure>
+</section>
+
+<div class="docs">
+  <nav class="docs__toc" aria-label="On this page">
+    <p class="docs__toc-title">On this page</p>
+    <ul>
+      <li><a href="#brief">What it covers</a></li>
+      <li><a href="#install">Install</a></li>
+      <li><a href="#markup">HTML structure</a></li>
+      <li><a href="#extend">Adding items</a></li>
+      <li><a href="#backend">Your backend and routes</a></li>
+      <li><a href="#json">Building from JSON</a></li>
+      <li><a href="#theming">Theming</a></li>
+      <li><a href="#keyboard">Keyboard map</a></li>
+      <li><a href="#accessibility">Why the disclosure pattern</a></li>
+      <li><a href="#api">Script API and events</a></li>
+      <li><a href="#testing">Browser and device tests</a></li>
+      <li><a href="#size">File sizes</a></li>
+    </ul>
+  </nav>
+
+  <div class="docs__body">
+    <section id="brief" aria-labelledby="brief-h">
+      <h2 id="brief-h" class="docs-h2">What it covers</h2>
+      <p>Each line of a typical "modernise our menu" brief, and where Pandu answers it.</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Brief checklist table">
+      <table class="table table--stack">
+        <thead><tr><th scope="col">The brief asks for</th><th scope="col">How Pandu does it</th></tr></thead>
+        <tbody>
+          <tr><td>Component-based, clean HTML5, CSS3, lightweight JS</td><td>One <code>&lt;header&gt;</code> block of semantic HTML, <code>pandu.css</code> ({{SIZE_CSS}} gz) and <code>pandu.js</code> ({{SIZE_JS}} gz). No dependencies, no build step needed.</td></tr>
+          <tr><td>Smooth hover and focus states</td><td>180 ms transitions on transform and opacity only; hover opens after a 120 ms intent delay and closes after 300 ms, so a passing pointer does not flash panels. Focus rings are always visible.</td></tr>
+          <tr><td>Dropdown or mega-menu</td><td>Both. A panel with one list is a dropdown; add <code>pandu__panel--mega</code> and it lays out as columns with an optional feature card.</td></tr>
+          <tr><td>Collapsible mobile view with a hamburger</td><td>Below 960 px a labelled Menu button opens an off-canvas drawer. Sections inside become accordions.</td></tr>
+          <tr><td>WCAG keyboard navigation, ARIA, tab order</td><td>WAI-ARIA disclosure pattern: real buttons with <code>aria-expanded</code> and <code>aria-controls</code>, <code>aria-current="page"</code> on the current link, DOM order equals tab order. See the <a href="#keyboard">keyboard map</a>.</td></tr>
+          <tr><td>Plugs into the existing codebase without breaking routes</td><td>Every item is an ordinary <code>&lt;a href&gt;</code> your server renders. The script never routes, never rewrites links, and the menu still works with JavaScript off.</td></tr>
+          <tr><td>Chrome, Firefox, Safari, Edge; down to 320 px</td><td>See the <a href="#testing">test matrix</a>.</td></tr>
+          <tr><td>Setup notes and a demo</td><td>This page, and the recording above.</td></tr>
+          <tr><td>No console errors, passes accessibility checks</td><td>Every page of this site was checked with axe-core and the browser console during testing.</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <section id="install" aria-labelledby="install-h">
+      <h2 id="install-h" class="docs-h2">Install</h2>
+      <p>Copy <code>dist/pandu.min.css</code> and <code>dist/pandu.min.js</code> into your static folder and add two lines to your base template. The script is <code>defer</code>red and starts itself on every element with <code>data-pandu</code>.</p>
+{{CODE "install snippet"}}
+<link rel="stylesheet" href="/assets/pandu.min.css">
+<script src="/assets/pandu.min.js" defer></script>
+{{/CODE}}
+      <p>Or straight from the repository, pinned to a tag:</p>
+{{CODE "CDN snippet"}}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/juslangit/pandu@v1.0.0/dist/pandu.min.css">
+<script src="https://cdn.jsdelivr.net/gh/juslangit/pandu@v1.0.0/dist/pandu.min.js" defer></script>
+{{/CODE}}
+      <p>A bare page with the default theme and nothing else is at <a href="/pandu/example/">/pandu/example/</a>; view its source for a complete copy-paste starting point.</p>
+    </section>
+
+    <section id="markup" aria-labelledby="markup-h">
+      <h2 id="markup-h" class="docs-h2">HTML structure</h2>
+      <p>This is the whole contract. Class names are the API; IDs are yours to choose.</p>
+{{CODE "HTML structure"}}
+<header class="pandu pandu--sticky" data-pandu>
+  <div class="pandu__bar">
+    <a class="pandu__brand" href="/">Your brand</a>
+
+    <!-- Works without JS (opens the drawer with :target); the script turns it into a button -->
+    <a class="pandu__toggle" href="#site-menu"><svg …></svg><span>Menu</span></a>
+
+    <nav class="pandu__menu" id="site-menu" aria-label="Main">
+      <div class="pandu__drawer-head">
+        <a class="pandu__close" href="#" aria-label="Close menu"><span aria-hidden="true">Close</span></a>
+      </div>
+
+      <ul class="pandu__list">
+        <!-- A plain link -->
+        <li class="pandu__item"><a class="pandu__link" href="/journal/">Journal</a></li>
+
+        <!-- A dropdown: the trigger link becomes a disclosure button -->
+        <li class="pandu__item">
+          <a class="pandu__trigger" href="/rent/">Rent gear</a>
+          <div class="pandu__panel" id="panel-rent">
+            <ul>
+              <li><a class="pandu__overview" href="/rent/">All rental gear</a></li>
+              <li><a href="/rent/shelter/">Tents and shelter</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+
+      <div class="pandu__actions"><a class="pandu__cta" href="/book/">Book a trip</a></div>
+    </nav>
+  </div>
+</header>
+{{/CODE}}
+      <ul class="docs-list">
+        <li>Keep the panel straight after its trigger, inside the same <code>&lt;li&gt;</code>.</li>
+        <li>Without JavaScript the trigger stays a link to its section page, and panels open on hover and keyboard focus. With JavaScript it becomes a button, so put the section page inside the panel as its first link (<code>pandu__overview</code>). If you forget, the script adds one for you.</li>
+        <li>Mark the current page on the server with <code>aria-current="page"</code>. A trigger whose panel holds the current page is underlined too.</li>
+      </ul>
+    </section>
+
+    <section id="extend" aria-labelledby="extend-h">
+      <h2 id="extend-h" class="docs-h2">Adding items</h2>
+      <p>Growing the menu never touches the JavaScript.</p>
+      <h3 class="docs-h3">A link</h3>
+{{CODE "a new link"}}
+<li class="pandu__item"><a class="pandu__link" href="/careers/">Careers</a></li>
+{{/CODE}}
+      <h3 class="docs-h3">A link inside a dropdown, with a description</h3>
+{{CODE "a dropdown link"}}
+<li><a href="/rent/stoves/">Stoves<span class="pandu__desc">Gas and meths, by the day</span></a></li>
+{{/CODE}}
+      <h3 class="docs-h3">A mega-menu column</h3>
+      <p>Add <code>pandu__panel--mega</code> to the panel; each <code>pandu__col</code> is a column and the grid fits as many as the width allows. Label each list by its heading.</p>
+{{CODE "a mega-menu column"}}
+<div class="pandu__panel pandu__panel--mega" id="panel-trips">
+  <div class="pandu__col">
+    <p class="pandu__heading" id="trips-sabah">Sabah</p>
+    <ul aria-labelledby="trips-sabah">
+      <li><a href="/trips/kinabalu/">Mount Kinabalu</a></li>
+      <li><a href="/trips/danum/">Danum Valley</a></li>
+    </ul>
+  </div>
+  <!-- optional feature card -->
+  <a class="pandu__feature" href="/trips/kinta-valley/">
+    <img src="/img/lake.webp" alt="" width="480" height="320" loading="lazy">
+    <span class="pandu__feature-title">Kinta Valley loop</span>
+    <span class="pandu__desc">From RM 180</span>
+  </a>
+</div>
+{{/CODE}}
+      <p>A dropdown near the right edge can open leftwards with <code>pandu__panel--end</code>.</p>
+    </section>
+
+    <section id="backend" aria-labelledby="backend-h">
+      <h2 id="backend-h" class="docs-h2">Your backend and routes</h2>
+      <p>Pandu has no router and never changes a URL. Render the same markup from whatever produces your pages today, and set <code>aria-current</code> where you already know the route. Three examples:</p>
+{{CODE "Laravel Blade"}}
+<a href="{{ route('rent.index') }}" @if(request()->routeIs('rent.index')) aria-current="page" @endif>All rental gear</a>
+{{/CODE}}
+{{CODE "Django template"}}
+<a href="{% url 'rent' %}" {% if request.resolver_match.url_name == 'rent' %}aria-current="page"{% endif %}>All rental gear</a>
+{{/CODE}}
+{{CODE "plain PHP"}}
+<a href="/rent/" <?= parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/rent/' ? 'aria-current="page"' : '' ?>>All rental gear</a>
+{{/CODE}}
+      <p>If your templates cannot mark the current page, add <code>data-pandu-current="auto"</code> to the header and the script will match the link whose path equals the address bar.</p>
+    </section>
+
+    <section id="json" aria-labelledby="json-h">
+      <h2 id="json-h" class="docs-h2">Building from JSON</h2>
+      <p>For a site whose menu lives in a CMS or an API, <code>Pandu.mount()</code> renders the same markup from a config object and starts it. Server-rendered HTML is still the better default, because it works before any script loads.</p>
+{{CODE "JSON config"}}
+Pandu.mount(document.getElementById('nav-slot'), {
+  brand: { label: 'Lereng', href: '/' },
+  items: [
+    { label: 'Trips', href: '/trips/', columns: [
+      { heading: 'Perak', links: [
+        { label: 'Gua Tempurung', href: '/trips/gua-tempurung/', desc: 'Half day' }
+      ] }
+    ], feature: { title: 'Kinta Valley loop', href: '/trips/kinta-valley/', image: '/img/lake.webp' } },
+    { label: 'Rent gear', href: '/rent/', links: [ { label: 'Tents', href: '/rent/shelter/' } ] },
+    { label: 'Journal', href: '/journal/' }
+  ],
+  cta: { label: 'Book a trip', href: '/book/' }
+});
+{{/CODE}}
+    </section>
+
+    <section id="theming" aria-labelledby="theming-h">
+      <h2 id="theming-h" class="docs-h2">Theming</h2>
+      <p>Everything visual is a custom property on <code>.pandu</code>. Set them in your own stylesheet; no need to edit <code>pandu.css</code>. Try them on this page's menu:</p>
+      <form class="play" id="playground" aria-label="Theme playground">
+        <div class="play__field"><label for="p-accent">Accent</label><input id="p-accent" type="color" value="#2a72de" data-var="--pandu-accent"><output for="p-accent"></output></div>
+        <div class="play__field"><label for="p-bg">Bar background</label><input id="p-bg" type="color" value="#f7f1e8" data-var="--pandu-bg"><output for="p-bg"></output></div>
+        <div class="play__field"><label for="p-panel">Panel background</label><input id="p-panel" type="color" value="#ffffff" data-var="--pandu-panel-bg"><output for="p-panel"></output></div>
+        <div class="play__field"><label for="p-radius">Panel corners</label><input id="p-radius" type="range" min="0" max="32" value="20" data-unit="px" data-var="--pandu-radius"><output for="p-radius"></output></div>
+        <div class="play__field"><label for="p-item">Item corners</label><input id="p-item" type="range" min="0" max="24" value="24" data-unit="px" data-var="--pandu-item-radius"><output for="p-item"></output></div>
+        <div class="play__field"><label for="p-height">Bar height</label><input id="p-height" type="range" min="56" max="96" value="72" data-unit="px" data-var="--pandu-height"><output for="p-height"></output></div>
+        <div class="play__actions"><button class="btn" type="button" id="play-open">Open the menu to see it</button><button class="btn btn--quiet" type="reset">Reset</button></div>
+        <div class="code"><pre aria-label="Generated CSS" tabindex="0"><code id="play-css"></code></pre></div>
+      </form>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Custom properties">
+      <table class="table table--stack">
+        <thead><tr><th scope="col">Property</th><th scope="col">Default</th><th scope="col">Controls</th></tr></thead>
+        <tbody>
+          <tr><td><code>--pandu-bg</code> / <code>--pandu-fg</code></td><td>#ffffff / #1c1b1a</td><td>Bar background and text</td></tr>
+          <tr><td><code>--pandu-muted</code></td><td>#4a4741</td><td>Descriptions and column headings</td></tr>
+          <tr><td><code>--pandu-accent</code> / <code>--pandu-accent-fg</code></td><td>#2a72de / #ffffff</td><td>Call-to-action button</td></tr>
+          <tr><td><code>--pandu-panel-bg</code> / <code>--pandu-panel-fg</code></td><td>#ffffff / inherits</td><td>Dropdowns, mega-menu and drawer</td></tr>
+          <tr><td><code>--pandu-hover-bg</code></td><td>rgba(28,27,26,.07)</td><td>Hover and open states</td></tr>
+          <tr><td><code>--pandu-focus</code></td><td>#2a72de</td><td>Focus ring colour</td></tr>
+          <tr><td><code>--pandu-font</code> / <code>--pandu-font-size</code></td><td>inherit / 0.9375rem</td><td>Type</td></tr>
+          <tr><td><code>--pandu-height</code></td><td>4.5rem</td><td>Bar height</td></tr>
+          <tr><td><code>--pandu-max-width</code> / <code>--pandu-gutter</code></td><td>80rem / clamp(1rem, 4vw, 2.5rem)</td><td>Content width and side padding</td></tr>
+          <tr><td><code>--pandu-radius</code> / <code>--pandu-item-radius</code></td><td>0.875rem / 999px</td><td>Corners of panels and of items</td></tr>
+          <tr><td><code>--pandu-shadow</code> / <code>--pandu-scrim</code></td><td>soft / 50% black</td><td>Panel shadow, drawer backdrop</td></tr>
+          <tr><td><code>--pandu-drawer-width</code></td><td>26rem</td><td>Drawer width (full width on small phones)</td></tr>
+          <tr><td><code>--pandu-duration</code> / <code>--pandu-ease</code></td><td>180ms / ease-out</td><td>Motion</td></tr>
+          <tr><td><code>--pandu-z</code></td><td>50</td><td>Stacking order</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>The mobile breakpoint is the one <code>@media (max-width: 59.99em)</code> line in <code>pandu.css</code>. The script reads the result from the stylesheet, so that line is the only place to change it.</p>
+    </section>
+
+    <section id="keyboard" aria-labelledby="keyboard-h">
+      <h2 id="keyboard-h" class="docs-h2">Keyboard map</h2>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Keyboard map table">
+      <table class="table keys table--stack">
+        <thead><tr><th scope="col">Key</th><th scope="col">Wide screens</th><th scope="col">Drawer (phones)</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd> <kbd>Tab</kbd></td><td>Moves through items in reading order, into an open panel and out of it. Leaving a panel closes it. Never trapped.</td><td>Cycles inside the open drawer; the page behind is inert.</td></tr>
+          <tr><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>On a trigger, opens or closes its panel. On a link, follows it.</td><td>On Menu, opens the drawer. On a section, expands or collapses it.</td></tr>
+          <tr><td><kbd>Esc</kbd></td><td>Closes the open panel and returns focus to its trigger.</td><td>Closes the drawer and returns focus to the Menu button.</td></tr>
+          <tr><td><kbd>→</kbd> / <kbd>←</kbd></td><td>Next or previous top-level item (wraps). From inside a panel, closes it and moves to the neighbouring item.</td><td>Not used.</td></tr>
+          <tr><td><kbd>↓</kbd> / <kbd>↑</kbd></td><td>On a trigger, opens the panel and focuses its first or last link. Inside a panel, next or previous link.</td><td>Next or previous item in the drawer.</td></tr>
+          <tr><td><kbd>Home</kbd> / <kbd>End</kbd></td><td>First or last top-level item, or first or last link in the open panel.</td><td>First or last item in the drawer.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>When the drawer opens, focus moves to its first item. A click outside an open panel closes it, and following any link closes everything.</p>
+    </section>
+
+    <section id="accessibility" aria-labelledby="a11y-h">
+      <h2 id="a11y-h" class="docs-h2">Why the disclosure pattern, not <code>role="menu"</code></h2>
+      <p>The WAI-ARIA Authoring Practices offer two ways to build site navigation. The menu pattern (<code>role="menubar"</code> and <code>role="menu"</code>) is meant for application commands, like a desktop app's File menu. It tells a screen reader to switch into a mode where arrow keys are required, Tab skips over items, and links stop being announced as links. Visitors who expect a website do not expect that.</p>
+      <p>The <a href="https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/">disclosure navigation pattern</a> keeps a plain list of links inside a <code>&lt;nav&gt;</code> landmark, with a button that shows and hides each group. Tab works the way it does on every other page, links are announced as links, and arrow keys are an extra shortcut rather than a requirement. Pandu follows it.</p>
+      <ul class="docs-list">
+        <li>The drawer is not given <code>role="dialog"</code> so the menu stays a navigation landmark. It behaves like a modal anyway: everything outside it is made <code>inert</code>, the page stops scrolling, and focus goes back to the Menu button on close.</li>
+        <li>Current page is shown with an underline as well as <code>aria-current</code>, never with colour alone.</li>
+        <li>Respects <code>prefers-reduced-motion</code> (no slides or fades) and Windows High Contrast (<code>forced-colors</code>: panels and buttons get system-colour borders).</li>
+        <li>Every target is at least 44 by 44 px, and the bar's height is fixed, so nothing shifts when fonts or the script load.</li>
+      </ul>
+    </section>
+
+    <section id="api" aria-labelledby="api-h">
+      <h2 id="api-h" class="docs-h2">Script API and events</h2>
+{{CODE "API"}}
+// Started automatically for every [data-pandu]. Add data-pandu-manual to start it yourself:
+const [nav] = Pandu.init('#site-header', { hoverDelay: 150 });
+
+nav.openPanel(nav.items[0]);   // open the first dropdown
+nav.closeAll();
+nav.openDrawer(); nav.closeDrawer(true); // true returns focus to the Menu button
+nav.destroy();
+
+document.addEventListener('pandu:toggle', (e) => console.log(e.detail.open, e.detail.trigger));
+document.addEventListener('pandu:drawer', (e) => console.log('drawer open?', e.detail.open));
+{{/CODE}}
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Options">
+      <table class="table table--stack">
+        <thead><tr><th scope="col">Option</th><th scope="col">Attribute</th><th scope="col">Default</th></tr></thead>
+        <tbody>
+          <tr><td><code>hover</code></td><td><code>data-pandu-hover="false"</code></td><td>true: panels open on hover with a mouse</td></tr>
+          <tr><td><code>hoverDelay</code></td><td><code>data-pandu-hover-delay</code></td><td>120 ms</td></tr>
+          <tr><td><code>closeDelay</code></td><td><code>data-pandu-close-delay</code></td><td>300 ms</td></tr>
+          <tr><td><code>current</code></td><td><code>data-pandu-current="auto"</code></td><td>off: the server marks the current page</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <section id="testing" aria-labelledby="testing-h">
+      <h2 id="testing-h" class="docs-h2">Browser and device tests</h2>
+      <p>{{TEST_SUMMARY}}</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Test results table">
+      <table class="table table--stack">
+        <thead><tr><th scope="col">Browser</th><th scope="col">Engine</th><th scope="col">Widths</th><th scope="col">Result</th></tr></thead>
+        <tbody>
+{{TEST_ROWS}}
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <section id="size" aria-labelledby="size-h">
+      <h2 id="size-h" class="docs-h2">File sizes</h2>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="File sizes table">
+      <table class="table table--stack">
+        <thead><tr><th scope="col">File</th><th scope="col" class="num">Minified</th><th scope="col" class="num">Gzipped</th></tr></thead>
+        <tbody>
+          <tr><td><a href="/dist/pandu.min.css">pandu.min.css</a></td><td class="num">{{SIZE_CSS_RAW}}</td><td class="num">{{SIZE_CSS}}</td></tr>
+          <tr><td><a href="/dist/pandu.min.js">pandu.min.js</a></td><td class="num">{{SIZE_JS_RAW}}</td><td class="num">{{SIZE_JS}}</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>Readable sources sit next to them as <a href="/dist/pandu.css">pandu.css</a> and <a href="/dist/pandu.js">pandu.js</a>. MIT licensed.</p>
+    </section>
+  </div>
+</div>

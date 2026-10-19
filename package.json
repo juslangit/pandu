@@ -1,0 +1,24 @@
+{
+  "name": "pandu",
+  "version": "1.0.0",
+  "description": "Accessible, framework-free site navigation: disclosure dropdowns, mega-menus and a mobile drawer.",
+  "license": "MIT",
+  "author": "Luqman Hakeem",
+  "repository": "github:juslangit/pandu",
+  "main": "dist/pandu.js",
+  "style": "dist/pandu.css",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "dev": "node tools/build.mjs && python3 -m http.server 4321 -d public",
+    "deploy": "./tools/deploy.sh",
+    "deploy:staging": "./tools/deploy.sh staging"
+  },
+  "devDependencies": {
+    "axe-core": "^4.10.3",
+    "esbuild": "0.25.10"
+  }
+}
