@@ -257,7 +257,7 @@ add('/book/', { title: 'Book a trip', description: 'Ask for a place on a Lereng 
     <h1 class="page-head__title">Book a trip</h1>
     <p class="page-head__lead">Tell us the trip, the date and how many of you are coming. We reply within a day with the place held and how to pay.</p>
   </div>
-  <form class="form" id="book-form" action="mailto:hello@lereng.example" method="post" enctype="text/plain">
+  <form class="form" id="book-form">
     <div class="field"><label for="f-trip">Trip</label>
       <select id="f-trip" name="trip" autocomplete="off" required>${trips.map((t) => `<option value="${t.slug}">${t.name} (${fmt(t.price)})</option>`).join('')}</select></div>
     <div class="field"><label for="f-date">Date you would like</label><input id="f-date" name="date" type="date" autocomplete="off" required></div>
@@ -265,7 +265,7 @@ add('/book/', { title: 'Book a trip', description: 'Ask for a place on a Lereng 
     <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
     <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" spellcheck="false" required></div>
     <div class="field field--wide"><label for="f-notes">Anything we should know <span class="optional">(optional)</span></label><textarea id="f-notes" name="notes" rows="4" autocomplete="off"></textarea></div>
-    <div class="field field--wide"><button class="btn" type="submit">Send the request</button><p class="note" id="book-status" role="status">This opens your email app with the details filled in. Nothing is sent from this demo site.</p></div>
+    <div class="field field--wide"><button class="btn" type="submit">Send the request</button><p class="note" id="book-status" role="status">This opens your email app with the details filled in. Nothing is sent from this demo site. You can also write to <a href="mailto:hello@lereng.example">hello@lereng.example</a> directly.</p></div>
   </form>
 </section>`);
 
